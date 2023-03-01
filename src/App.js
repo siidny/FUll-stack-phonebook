@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import axios from "axios";
+import noteService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,17 +12,9 @@ const App = () => {
   const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios
-      .get("http://localhost:3001/persons")
-      .then((response) => {
-        console.log("promise fulfilled");
-        console.log(response.data);
-        setPersons(response.data);
-      })
-      .catch((error) => {
-        console.log("error fetching data:", error);
-      });
+    noteService.getAll().then((response) => {
+      setPersons(response.data);
+    });
   }, []);
 
   const addName = (event) => {
