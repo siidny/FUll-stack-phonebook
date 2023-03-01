@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
 import noteService from "./services/persons";
 
 const App = () => {
@@ -24,19 +23,18 @@ const App = () => {
       number: newNumber,
     };
 
-    axios.post("http://localhost:3001/persons", nameObject).then((response) => {
-      setPersons(persons.concat(response.data));
-      setNewName("");
-      setNewNumber("");
-    });
-
     const nameExists = persons.some((person) => person.name === newName);
     if (nameExists) {
       alert(`${newName} is already in the phone book`);
     } else {
-      setPersons(persons.concat(nameObject));
+      noteService.create(nameObject).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
