@@ -32,10 +32,15 @@ const App = () => {
     const nameExists = persons.some((person) => person.name === newName);
     if (nameExists) {
       alert(`${newName} is already in the phone book`);
-    } else {
-      setPersons(persons.concat(nameObject));
     }
   };
+
+  const deletePerson = (id) => {
+    personsService.remove(id).then(() => {
+      setPersons(persons.filter((person) => person.id !== id));
+    });
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -67,7 +72,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} deletePerson={deletePerson} />
     </div>
   );
 };

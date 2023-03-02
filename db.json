@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -26,11 +21,6 @@
       "id": 5
     },
     {
-      "name": "",
-      "number": "8763636",
-      "id": 6
-    },
-    {
       "name": "hell bend",
       "number": "7628762",
       "id": 7
@@ -39,31 +29,6 @@
       "name": "be good",
       "number": "123456",
       "id": 8
-    },
-    {
-      "name": "",
-      "number": "",
-      "id": 9
-    },
-    {
-      "name": "khkj",
-      "number": "98678976",
-      "id": 10
-    },
-    {
-      "name": "",
-      "number": "",
-      "id": 11
-    },
-    {
-      "name": "",
-      "number": "",
-      "id": 12
-    },
-    {
-      "name": "",
-      "number": "",
-      "id": 13
     },
     {
       "name": "bank man",
@@ -94,6 +59,11 @@
       "name": "james hammer",
       "number": "123765",
       "id": 19
+    },
+    {
+      "name": "barstool",
+      "number": "265786",
+      "id": 20
     }
   ]
 }
