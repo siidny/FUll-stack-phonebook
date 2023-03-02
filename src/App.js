@@ -36,9 +36,12 @@ const App = () => {
   };
 
   const deletePerson = (id) => {
-    personsService.remove(id).then(() => {
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Do you really want to delete ${person.name}?`)) {
+      personsService.remove(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
   };
 
   const handleNameChange = (event) => {

@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -29,11 +24,6 @@
       "name": "be good",
       "number": "123456",
       "id": 8
-    },
-    {
-      "name": "bank man",
-      "number": "786433",
-      "id": 14
     },
     {
       "name": "DAte night",
