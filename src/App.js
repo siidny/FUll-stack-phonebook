@@ -18,29 +18,56 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
-    const nameObject = {
-      name: newName,
-      number: newNumber,
-    };
+    const existingPerson = persons.find((person) => person.name === newName);
 
-    personsService.create(nameObject).then((response) => {
-      setPersons(persons.concat(response.data));
-      setNewName("");
-      setNewNumber("");
-    });
+    if (existingPerson) {
+      const result = window.confirm(
+        `${newName} is already in the phone book. Replace?`
+      );
+      if (result) {
+        personsService
+          .update(existingPerson.id, {
+            ...existingPerson,
+            number: newNumber,
+          })
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : response
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            alert(`Failed to update ${newName}'s number`);
+          });
+      }
+    } else {
+      const nameObject = {
+        name: newName,
+        number: newNumber,
+      };
 
-    const nameExists = persons.some((person) => person.name === newName);
-    if (nameExists) {
-      alert(`${newName} is already in the phone book`);
+      personsService.create(nameObject).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
   const deletePerson = (id) => {
     const person = persons.find((person) => person.id === id);
     if (window.confirm(`Do you really want to delete ${person.name}?`)) {
-      personsService.remove(id).then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personsService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          alert(`Failed to delete ${person.name}: ${error.message}`);
+        });
     }
   };
 
@@ -53,6 +80,7 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilterText(event.target.value);
   };
+  console.log(persons);
   const filteredPersons = persons.filter(({ name }) =>
     name.toLowerCase().includes(filterText.toLowerCase())
   );
