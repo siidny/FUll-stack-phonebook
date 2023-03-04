@@ -9,6 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterText, setFilterText] = useState("");
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((response) => {
@@ -54,7 +55,19 @@ const App = () => {
         setNewName("");
         setNewNumber("");
       });
+      setSuccessMessage(`${newName} has been added to the phone book.`);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
     }
+  };
+
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null;
+    }
+
+    return <div className="success">{message}</div>;
   };
 
   const deletePerson = (id) => {
@@ -80,7 +93,7 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilterText(event.target.value);
   };
-  console.log(persons);
+
   const filteredPersons = persons.filter(({ name }) =>
     name.toLowerCase().includes(filterText.toLowerCase())
   );
@@ -88,6 +101,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
 
       <Filter filterText={filterText} handleFilterChange={handleFilterChange} />
 
