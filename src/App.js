@@ -43,6 +43,10 @@ const App = () => {
           .catch((error) => {
             alert(`Failed to update ${newName}'s number`);
           });
+        setSuccessMessage(`${newName}'s number has been updated.`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 5000);
       }
     } else {
       const nameObject = {
