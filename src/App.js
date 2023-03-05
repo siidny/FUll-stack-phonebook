@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterText, setFilterText] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((response) => {
@@ -41,7 +42,12 @@ const App = () => {
             setNewNumber("");
           })
           .catch((error) => {
-            alert(`Failed to update ${newName}'s number`);
+            setErrorMessage(
+              `${newName} has already been deleted from teh server.`
+            );
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 5000);
           });
       }
     } else {
@@ -62,12 +68,17 @@ const App = () => {
     }
   };
 
-  const Notification = ({ message }) => {
+  const NotificationSuccess = ({ message }) => {
     if (message === null) {
       return null;
     }
-
     return <div className="success">{message}</div>;
+  };
+  const NotificationError = ({ message }) => {
+    if (message === null) {
+      return null;
+    }
+    return <div className="error">{message}</div>;
   };
 
   const deletePerson = (id) => {
@@ -101,7 +112,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <NotificationSuccess message={successMessage} />
+      <NotificationError message={errorMessage} />
 
       <Filter filterText={filterText} handleFilterChange={handleFilterChange} />
 
