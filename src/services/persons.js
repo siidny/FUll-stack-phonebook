@@ -18,6 +18,9 @@ const update = async (id, updatedPerson) => {
   const request = axios.put(`${baseUrl}/${id}`, updatedPerson);
   const response = await request;
   return response.data;
+  //Rmoved this to fix:
+  // const response = await request;
+  // return request.then((response) => response.data);
 };
 
 const personsService = { getAll, create, remove, update };
