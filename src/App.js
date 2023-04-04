@@ -33,9 +33,10 @@ const App = () => {
             number: newNumber,
           })
           .then((response) => {
+            const updatedPerson = response.data;
             setPersons(
               persons.map((person) =>
-                person.id !== existingPerson.id ? person : response
+                person.id !== existingPerson.id ? person : updatedPerson
               )
             );
             setNewName("");
@@ -43,7 +44,7 @@ const App = () => {
           })
           .catch((error) => {
             setErrorMessage(
-              `${newName} has already been deleted from teh server.`
+              `${newName} has already been deleted from the server.`
             );
             setTimeout(() => {
               setErrorMessage(null);
@@ -108,6 +109,10 @@ const App = () => {
   const filteredPersons = persons.filter(({ name }) =>
     name.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  console.log("persons", this.state.persons);
+  console.log("newName", this.state.newName);
+  console.log("newNumber", this.state.newNumber);
 
   return (
     <div>
