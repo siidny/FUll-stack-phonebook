@@ -16,7 +16,8 @@ const remove = async (id) => {
 
 const update = async (id, updatedPerson) => {
   const request = axios.put(`${baseUrl}/${id}`, updatedPerson);
-  return request.then((response) => response.data);
+  const response = await request;
+  return response.data;
 };
 
 const personsService = { getAll, create, remove, update };
