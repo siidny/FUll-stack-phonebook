@@ -19,52 +19,60 @@ const App = () => {
   }, []);
 
   const addName = (event) => {
-    event.preventDefault();
-    const existingPerson = persons.find((person) => person.name === newName);
-
-    if (existingPerson) {
-      const result = window.confirm(
-        `${newName} is already in the phone book. Replace?`
-      );
-      if (result) {
-        personsService
-          .update(existingPerson.id, {
-            ...existingPerson,
-            number: newNumber,
-          })
-          .then((response) => {
-            setPersons(
-              persons.map((person) =>
-                person.id !== existingPerson.id ? person : response
-              )
-            );
-            setNewName("");
-            setNewNumber("");
-          })
-          .catch((error) => {
-            setErrorMessage(
-              `${newName} has already been deleted from teh server.`
-            );
-            setTimeout(() => {
-              setErrorMessage(null);
-            }, 5000);
-          });
-      }
-    } else {
-      const nameObject = {
-        name: newName,
-        number: newNumber,
-      };
-
-      personsService.create(nameObject).then((response) => {
-        setPersons(persons.concat(response.data));
-        setNewName("");
-        setNewNumber("");
-      });
-      setSuccessMessage(`${newName} has been added to the phone book.`);
+    if (newName.length < 3) {
+      setErrorMessage("Name must be at least 3 characters.");
       setTimeout(() => {
-        setSuccessMessage(null);
+        setErrorMessage(null);
       }, 5000);
+    } else {
+      event.preventDefault();
+      const existingPerson = persons.find((person) => person.name === newName);
+
+      if (existingPerson) {
+        const result = window.confirm(
+          `${newName} is already in the phone book. Replace?`
+        );
+        if (result) {
+          personsService
+            .update(existingPerson.id, {
+              ...existingPerson,
+              number: newNumber,
+            })
+            .then((response) => {
+              setPersons(
+                persons.map((person) =>
+                  person.id !== existingPerson.id ? person : response
+                )
+              );
+              setNewName("");
+              setNewNumber("");
+            })
+            .catch((error) => {
+              setErrorMessage(
+                // `${newName} has already been deleted from teh server.`
+                console.log(error.response.data.error)
+              );
+              setTimeout(() => {
+                setErrorMessage(null);
+              }, 5000);
+            });
+        }
+      } else {
+        const nameObject = {
+          name: newName,
+          number: newNumber,
+        };
+
+        personsService.create(nameObject).then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+          setSuccessMessage(`${newName} has been added to the phone book.`);
+          setTimeout(() => {
+            setSuccessMessage(null);
+          }, 5000);
+        });
+      }
     }
   };
 
